@@ -1,0 +1,41 @@
+#macro (galleryOthers)
+#languageVars()
+#getGalleriesByLast(4 1)
+<section class="galleries-others">
+<div class="container">
+<h2 class="galleries-others-title">$ds_lang_gallery_others_title</h2>
+<div class="gallery-list">
+#foreach ($_gallery in $galleriesByLast)
+#getGalleryVars($_gallery)
+<div class="gallery-item">
+<a class="gallery-photos" href="$galleryUrl">
+<figure class="gallery-photo">
+<div class="photo-overlay">
+<span class="photo-overlay-icon icon icon-round icon-md icon_gallery"></span>
+</div>
+<div class="photo-background" style="background-image: url('$galleryImagePath$galleryDefaultImage')"></div>
+</figure>
+#foreach($_image in $galleryImages)
+
+#if ($_image.InnerText != $galleryDefaultImage)
+<figure class="gallery-photo">
+  
+<img src="${galleryImagePath}resized/#if($velocityCount == 1)500x500#else220x165#end/$_image.InnerText" />
+
+</figure>
+#end
+#end
+</a>
+<div class="gallery-info">
+<a class="gallery-photos" href="$galleryUrl">
+<h3 class="gallery-title">$galleryTitle</h3>
+</a>
+#set($articleCanonicalUrl = $galleryCanonicalUrl)
+#set($articleDate = $galleryDate)
+</div>
+</div>
+#end
+</div>
+</div>
+</section>
+#end
