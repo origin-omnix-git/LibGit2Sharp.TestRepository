@@ -1,0 +1,28 @@
+## dist/templates/partials/footer.vm 
+## 2016-05-04 2:43:56
+#languageVars()
+#printAd( "1x1layer" )
+<footer class="footer-main">
+<a href="#" class="btn btn-to-top">$ds_lang_backtotop</a>
+<div class="footer-main-social">
+<ul class="social-list">
+#if(!$is_local)
+#getSocialLinks()
+#end
+<li><a href="$socialLinks.facebook" target="_blank"><i class="fa fa-facebook"></i></a></li>
+<li><a href="$socialLinks.twitter" target="_blank"><i class="fa fa-twitter"></i></a></li>
+</ul>
+</div>
+<div class="footer-main-copyright">
+<p>$ds_lang_footer_trademark_line1</p>
+<p>$ds_lang_footer_trademark_line2</p>
+<div class="footer-separator"></div>
+<ul>
+<li>$ds_lang_footer_advertise</li>
+<li><a href="/$Country/ad-choices" target="_blank">$ds_lang_footer_advertisingChoices</a></li>
+<li><a href="/$Country/privacy" target="_blank">$ds_lang_footer_privacyPolicies</a></li>
+<li><a href="/$Country/terms-of-use" target="_blank">$ds_lang_footer_termsOfUse</a>#if($Country != "br") <a href="/$Country/whats-new/" target="_blank">$ds_lang_footer_termsOfUse_new</a>#end</li>
+## #if ($Country == "br")<li>$ds_lang_footer_contactUs</li>#end
+</ul>
+</div>
+</footer>
