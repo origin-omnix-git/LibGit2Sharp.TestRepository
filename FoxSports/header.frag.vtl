@@ -1,0 +1,382 @@
+## dist/templates/partials/header.vm
+## branch: master
+## release: v2.1.12
+## 2016-06-23 1:07:40
+#if ($URLParser.get_Item(1) != "" && $URLParser.get_Item(2) == "")
+#set($i_section = $URLParser.get_Item(1))
+#end
+#languageVars()
+#getCDNPath()
+#if ($Query.get_Item("origin") != "app")
+<section class="header-container fixed-top">
+<div class="header-fix-over-iframes">
+<header class="header-main">
+<a class="logo" href="/$Country/"><span class="screenreader">FOX Sports</span></a>
+<nav class="header-main-nav">
+## Editorial Menu
+## Since #getXmlAttribute does not work on emulator, we have some Demo content for emulator
+#if($ct_env.environment != "emulator")
+#dataSourceUrl()
+#set ($_headerMenuXml = $IncludePageHelper.GetPage("15", "$dataSourceUrl/ds_menu.xml"))
+#getXmlElements($_headerMenuXml "item" "")
+#set ($headerMenuXml = $xmlElements)
+<ul>
+#foreach($menuItem in $headerMenuXml)
+#getXmlAttribute($menuItem "item" "title")
+#set($menuItemTitle = $xmlAttribute)
+#getXmlAttribute($menuItem "item" "link")
+#set($menuItemLink = $xmlAttribute)
+#set($menuItemLink = $menuItemLink.Replace('$Country', $Country))
+#getXmlAttribute($menuItem "item" "slug")
+#set($menuItemSlug = $xmlAttribute)
+#if($menuItemSlug && $menuItemSlug == "news")
+<li class="item#if($i_section == $menuItemSlug) is-active#end"><a href="$menuItemLink" class="has-submenu" data-sub-menu="sub-menu-news">$menuItemTitle</a></li>
+#elseif($menuItemSlug && $menuItemSlug == "competitions")
+<li class="item#if($i_section == $menuItemSlug) is-active#end"><a href="#" class="has-submenu" data-sub-menu="sub-menu-competitions">$menuItemTitle</a></li>
+#elseif($menuItemSlug && $menuItemSlug == "team")
+<li class="item#if($i_section == $menuItemSlug) is-active#end"><a href="#" class="has-submenu" data-sub-menu="sub-menu-times">$menuItemTitle</a></li>
+#elseif($menuItemSlug && $menuItemSlug == "blogs")
+<li class="item#if($i_section == $menuItemSlug) is-active#end"><a href="$menuItemLink" class="has-submenu" data-sub-menu="sub-menu-blogs">$menuItemTitle</a></li>
+#else
+<li class="item"><a href="$menuItemLink">$menuItemTitle</a></li>
+#end
+#end
+</ul>
+#else
+## Demo content for menu
+## Watch out when editing this, since real data comes from ds_menu.xml
+<ul>
+<li class="item#if($i_section == 'news') is-active#end"><a href="/$Country/news" class="has-submenu" data-sub-menu="sub-menu-news">$ds_lang_news_title_p</a></li>
+<li class="item#if($i_section == 'blogs') is-active#end"><a href="/$Country/blogs" class="has-submenu" data-sub-menu="sub-menu-blogs">$ds_lang_blog_title_p</a></li>
+<li class="item#if($i_section == 'schedule') is-active#end"><a href="/$Country/tv/schedule/foxsports/today">$ds_lang_schedule_title</a></li>
+<li class="item#if($i_section == 'photos') is-active#end"><a href="/$Country/photos">$ds_lang_gallery_title</a></li>
+#if ($Country == "br")<li class="item#if($i_section == 'videos') is-active#end"><a href="/$Country/videos">$ds_lang_videos_title</a></li>#end
+<li class="item#if($i_section == 'competitions') is-active#end"><a href="#" class="has-submenu" data-sub-menu="sub-menu-competitions">$ds_lang_competitions_title</a></li>
+#if ($Country == "br")<li class="item#if($i_section == 'teams') is-active#end"><a href="#" class="has-submenu" data-sub-menu="sub-menu-times">Times</a></li>#end
+</ul>
+#end
+</nav>
+#if (!$HideSidebar)
+<button class="toggle-sidebar"><i></i></button>
+#set ($searchEnable = false)
+## Disabled until new google search api is applied
+#if ($searchEnable)
+#if($URLParser.get_Item(1) != 'search')
+<button class="search-toggle-button trigger"><i class="icon icon_search"></i></button>
+#end
+#end
+#blockCountrySelector()
+#end
+</header>
+</div>
+</section>
+<section class="header-main-sub-nav" id="sub-menu-news">
+<div class="content">
+##set($headerNewsTags = ["Dakar-Rally", "Bundesliga", "UEFA-Champions-League"])
+#dataSourceUrl()
+#set ($_headerNewsTagsXml = $IncludePageHelper.GetPage("15", "$dataSourceUrl/ds_headerNewsTags.xml"))
+#getXmlElements($_headerNewsTagsXml "tag" "")
+#set ($headerNewsTags = $xmlElements)
+<ul class="h-list news-sm-links">
+<li><a href="#latest" class="is-active" data-menu-toggle="#latest">$ds_lang_now</a></li>
+#foreach($i_tag in $headerNewsTags)
+#getXmlAttribute($i_tag "tag" "label")
+#set($i_tagText = $xmlAttribute)
+#getXmlAttribute($i_tag "tag" "name")
+#set($i_tagSlug = $xmlAttribute.Replace(" ", "-").ToLower())
+<li><a href="#news-header-$i_tagSlug" data-menu-toggle="#$i_tagSlug">$i_tagText</a></li>
+#end
+</ul>
+<div class="secondary-option">
+<div class="container">
+<a class="see-all" href="/$Country/news">
+$ds_lang_see_more_f
+<i class="fa fa-angle-right"></i>
+</a>
+</div>
+</div>
+<div class="article-grid news is-active" id="latest">
+#getArticlesByLast("news" 5 1)
+#foreach($_article in $articlesByLast)
+#blockArticleHighlightMd( $_article "" "" false)
+#end
+</div>
+#foreach($i_tag in $headerNewsTags)
+#getXmlAttribute($i_tag "tag" "label")
+#set($i_tagText = $xmlAttribute)
+#getXmlAttribute($i_tag "tag" "name")
+#set($i_tagSlug = $xmlAttribute)
+#set($tabId = $xmlAttribute.Replace(" ", "-").ToLower())
+<div class="article-grid news" id="$tabId">
+#getArticlesByTag("news" "$i_tagSlug" 5 1)
+#foreach($_article in $articlesByTag)
+#blockArticleHighlightMd($_article "" "" false)
+## #homeDesktopArticleBlock($_article "md" true "")
+#end
+</div>
+#end
+</div>
+</section>
+<section class="header-main-sub-nav" id="sub-menu-blogs">
+<div class="content">
+<ul class="h-list blogs-sm-links">
+<li><a href="#latest" class="is-active">$ds_lang_blog_last</a></li>
+<li><a href="/$Country/blogs/authors">$ds_lang_blog_show_all_authors</a></li>
+</ul>
+<div class="secondary-option">
+<div class="container">
+<a class="see-all" href="/$Country/blogs">
+$ds_lang_see_more_blogs
+<i class="fa fa-angle-right"></i>
+</a>
+</div>
+</div>
+<div class="article-grid blog is-active">
+#getArticlesByLast("blogpost" 5 1)
+#foreach($_article in $articlesByLast)
+#homeDesktopArticleBlock($_article "md" true "_hideFbShare")
+#end
+</div>
+</div>
+</section>
+<section class="header-main-sub-nav" id="sub-menu-competitions">
+<div class="content">
+## #dataSourceUrl()
+## #set ($_competitionsMenuXml = $IncludePageHelper.GetPage("15", "$dataSourceUrl/ds_competitionsMenu.xml"))
+## #getXmlElements($_competitionsMenuXml "item" "")
+## #set ($competitionsMenuXml = $xmlElements)
+## <ul class="h-list">
+##   #foreach($menuItem in $competitionsMenuXml)
+##     #getXmlAttribute($menuItem "item" "title")
+##     #set($menuItemTitle = $xmlAttribute)
+##     #getXmlAttribute($menuItem "item" "link")
+##     #set($menuItemLink = $xmlAttribute)
+##     #set($menuItemLink = $menuItemLink.Replace('$Country', $Country))
+##     <li class="item"><a href="$menuItemLink">$menuItemTitle</a></li>
+##   #end
+## </ul>
+<ul class="lists-with-titles">
+#calculateEditorialCountry()
+#macro (listColClass $_itemsInList)
+#set($colClass = 'one-column')
+#if($_itemsInList >  4)#set($colClass = 'two-columns')#end
+#if($_itemsInList >  8)#set($colClass = 'three-columns')#end
+#if($_itemsInList > 12)#set($colClass = 'four-columns')#end
+#if($_itemsInList > 16)#set($colClass = 'five-columns')#end
+$colClass
+#end
+#if($editorialCountry == "br")
+## Brasil
+<li class="medium-cols #listColClass(13)">
+<div class="list-col-title">FUTEBOL</div>
+<ul class="list-in-columns">
+<li><a href="/libertadores">Copa Bridgestone Libertadores</a></li>
+<li><a href="/brasileirao">Brasileirão</a></li>
+<li><a href="/serieb">Brasileiro Série B</a></li>
+<li><a href="/copadobrasil">Copa do Brasil</a></li>
+<li><a href="/campeonatoingles">Barclays Premier League</a></li>
+<li><a href="/campeonatoespanhol">Liga BBVA</a></li>
+<li><a href="/bundesliga">Bundesliga</a></li>
+<li><a href="/campeonatoitaliano">Serie A TIM</a></li>
+<li><a href="/championsleague">UEFA Champions League</a></li>
+<li><a href="/ligaeuropa">UEFA Europa League</a></li>
+<li><a href="/campeonatoescoces">Ladbrokes Premiership</a></li>
+<li><a href="/campeonatobelga">Jupiler Pro League</a></li>
+<li><a href="/eliminatorias">Eliminatórias Conmebol</a></li>
+</ul>
+</li>
+<li class="narrow-cols #listColClass(3)">
+<div class="list-col-title">FOX Nitro</div>
+<ul class="list-in-columns">
+<li><a href="/nascar">Nascar</a></li>
+<li><a href="/formulae">Fórmula E</a></li>
+<li><a href="/formula1">Fórmula 1</a></li>
+</ul>
+</li>
+<li class="narrow-cols #listColClass(4)">
+<div class="list-col-title">MAIS ESPORTES</div>
+<ul class="list-in-columns">
+<li><a href="/jogosolimpicos">Jogos Olímpicos</a></li>
+<li><a href="/bellator">Bellator</a></li>
+<li><a href="/atp">Tênis</a></li>
+<li><a href="/nba">NBA</a></li>
+</ul>
+</li>
+#elseif($editorialCountry == "cl")
+## Chile
+<li class="narrow-cols #listColClass(6)">
+<div class="list-col-title">FÚTBOL</div>
+<ul class="list-in-columns">
+<li><a href="/campeonatonacional">Campeonato Nacional de Chile</a></li>
+<li><a href="/bundesliga">Bundesliga</a></li>
+<li><a href="/premierleague">Premier League de Inglaterra</a></li>
+<li><a href="/laliga">La Liga de España</a></li>
+<li><a href="/seriea">Serie A TIM</a></li>
+<li><a href="/mls">MLS</a></li>
+</ul>
+</li>
+<li class="wide-cols #listColClass(4)">
+<div class="list-col-title">COPAS Y TORNEOS</div>
+<ul class="list-in-columns">
+<li><a href="/libertadores">Copa Bridgestone Libertadores</a></li>
+<li><a href="/championsleague">UEFA Champions League</a></li>
+<li><a href="/europaleague">UEFA Europa League</a></li>
+<li><a href="/concacaf">CONCACAF Liga de Campeones Scotiabank</a></li>
+</ul>
+</li>
+<li class="narrow-cols #listColClass(6)">
+<div class="list-col-title">OTRAS COMPETENCIAS</div>
+<ul class="list-in-columns">
+<li><a href="/formula1">Fórmula 1</a></li>
+<li><a href="/atp">Tenis ATP</a></li>
+<li><a href="/nfl">NFL</a></li>
+<li><a href="/formulae">Fórmula E</a></li>
+<li><a href="/wta">Tenis WTA</a></li>
+<li><a href="/juegosolimpicos">Juegos Olímpicos</a></li>
+</ul>
+</li>
+#elseif($editorialCountry == "co")
+## Colombia
+<li class="narrow-cols #listColClass(6)">
+<div class="list-col-title">FÚTBOL</div>
+<ul class="list-in-columns">
+<li><a href="/ligacolombia">Liga Colombiana</a></li>
+<li><a href="/bundesliga">Bundesliga</a></li>
+<li><a href="/premierleague">Premier League de Inglaterra</a></li>
+<li><a href="/laliga">La Liga de España</a></li>
+<li><a href="/seriea">Serie A TIM</a></li>
+<li><a href="/mls">MLS</a></li>
+</ul>
+</li>
+<li class="wide-cols #listColClass(4)">
+<div class="list-col-title">COPAS Y TORNEOS</div>
+<ul class="list-in-columns">
+<li><a href="/libertadores">Copa Bridgestone Libertadores</a></li>
+<li><a href="/championsleague">UEFA Champions League</a></li>
+<li><a href="/europaleague">UEFA Europa League</a></li>
+<li><a href="/concacaf">CONCACAF Liga de Campeones Scotiabank</a></li>
+</ul>
+</li>
+<li class="narrow-cols #listColClass(6)">
+<div class="list-col-title">OTRAS COMPETENCIAS</div>
+<ul class="list-in-columns">
+<li><a href="/formula1">Fórmula 1</a></li>
+<li><a href="/atp">Tenis ATP</a></li>
+<li><a href="/nfl">NFL</a></li>
+<li><a href="/formulae">Fórmula E</a></li>
+<li><a href="/wta">Tenis WTA</a></li>
+<li><a href="/juegosolimpicos">Juegos Olímpicos</a></li>
+</ul>
+</li>
+#elseif($editorialCountry == "mx")
+## Cono Norte
+<li class="narrow-cols #listColClass(5)">
+<div class="list-col-title">FUTBOL</div>
+<ul class="list-in-columns">
+<li><a href="/ligamx">Liga MX</a></li>
+<li><a href="/bundesliga">Bundesliga</a></li>
+<li><a href="/premierleague">Premier League de Inglaterra</a></li>
+<li><a href="/laliga">La Liga de España</a></li>
+<li><a href="/seriea">Serie A TIM</a></li>
+<li><a href="/mls">MLS</a></li>
+</ul>
+</li>
+<li class="wide-cols #listColClass(4)">
+<div class="list-col-title">COPAS Y TORNEOS</div>
+<ul class="list-in-columns">
+<li><a href="/concacaf">CONCACAF Liga de Campeones Scotiabank</a></li>
+<li><a href="/eliminatorias2018">Eliminatorias Conmebol</a></li>
+<li><a href="/libertadores">Copa Bridgestone Libertadores</a></li>
+<li><a href="/championsleague">UEFA Champions League</a></li>
+<li><a href="/europaleague">UEFA Europa League</a></li>
+</ul>
+</li>
+<li class="narrow-cols #listColClass(6)">
+<div class="list-col-title">OTRAS COMPETENCIAS</div>
+<ul class="list-in-columns">
+<li><a href="/nfl">NFL</a></li>
+<li><a href="/formula1">Fórmula 1</a></li>
+<li><a href="/nba">NBA</a></li>
+<li><a href="/mlb">MLB</a></li>
+<li><a href="/formulae">Fórmula E</a></li>
+<li><a href="/juegosolimpicos2016">Juegos Olímpicos</a></li>
+</ul>
+</li>
+#else
+## Cono Sur
+<li class="narrow-cols #listColClass(6)">
+<div class="list-col-title">FÚTBOL</div>
+<ul class="list-in-columns">
+<li><a href="/futbolargentino">Primera A Argentina</a></li>
+<li><a href="/bundesliga">Bundesliga</a></li>
+<li><a href="/premierleague">Premier League</a></li>
+<li><a href="/laliga">La Liga de España</a></li>
+<li><a href="/seriea">Serie A TIM</a></li>
+<li><a href="/mls">MLS</a></li>
+</ul>
+</li>
+<li class="wide-cols #listColClass(5)">
+<div class="list-col-title">COPAS Y TORNEOS</div>
+<ul class="list-in-columns">
+<li><a href="/libertadores">Copa Bridgestone Libertadores</a></li>
+<li><a href="/championsleague">UEFA Champions League</a></li>
+<li><a href="/europaleague">UEFA Europa League</a></li>
+<li><a href="/concacaf">CONCACAF Liga de Campeones Scotiabank</a></li>
+<li><a href="/eliminatorias2018">Eliminatorias Conmebol</a></li>
+</ul>
+</li>
+<li class="narrow-cols #listColClass(6)">
+<div class="list-col-title">OTRAS COMPETENCIAS</div>
+<ul class="list-in-columns">
+<li><a href="/formula1">Fórmula 1</a></li>
+<li><a href="/atp">Tenis ATP</a></li>
+<li><a href="/nfl">NFL</a></li>
+<li><a href="/formulae">Fórmula E</a></li>
+<li><a href="/wta">Tenis WTA</a></li>
+<li><a href="/juegosolimpicos2016">Juegos Olímpicos</a></li>
+</ul>
+</li>
+#end
+</ul>
+</div>
+</section>
+<section class="header-main-sub-nav" id="sub-menu-times">
+<div class="content">
+<ul class="sub-nav-tabs">
+<li><a href="#" class="is-active" data-tab-content="brasil">Brasil</a></li>
+<li><a href="#" data-tab-content="mundo">Resto do mundo</a></li>
+</ul>
+<div class="nav-bar-tab-content" id="tab-content-brasil">
+#getTeamsList()
+#set($count_teams = 0)
+#foreach($team in $teams_br_br_url)
+<a href="$teams_br_br_url.get_Item($count_teams)" title="$teams_br_br_name.get_Item($count_teams)"><img src="$teams_br_br_shield.get_Item($count_teams)" alt="$teams_br_br_name.get_Item($count_teams)"/></a>
+#set($count_teams = $count_teams + 1)
+#end
+</div>
+<div class="nav-bar-tab-content hidden" id="tab-content-mundo">
+#set($count_teams = 0)
+#foreach($team in $teams_br_int_url)
+<a href="$teams_br_int_url.get_Item($count_teams)" title="$teams_br_int_name.get_Item($count_teams)"><img src="$teams_br_int_shield.get_Item($count_teams)" alt="$teams_br_int_name.get_Item($count_teams)"/></a>
+#set($count_teams = $count_teams + 1)
+#end
+</div>
+</div>
+</section>
+#end
+#if ($searchEnable)
+## Disabled until new google search api is applied
+<section class="header-main-search">
+<div class="content">
+<div class="search-input">
+<form class="form-search">
+<label>
+<i class="icon icon_search"></i>
+<input type="text" placeholder="Buscar" name="search" autocomplete="off">
+</label>
+</form>
+</div>
+<button class="close search-toggle-button"><i class="icon icon_cross"></i></button>
+</div>
+</section>
+#end

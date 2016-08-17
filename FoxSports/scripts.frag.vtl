@@ -1,0 +1,69 @@
+## dist/templates/partials/scripts.vm
+## branch: master
+## release: v2.1.12
+## 2016-06-23 1:07:40
+#getCDNPath()
+#if ($bodyClass == 'embed-player-page')
+#if ($is_local || $isLocalOmnix)
+<script src="//foxsports.aerolabdigital.com/assets/scripts/video-plugins.js"></script>
+#else
+<script src="$CDNAssetsPath/scripts/video-plugins.js$CDNAppend"></script>
+#end
+#else
+#if ($is_local || $isLocalOmnix)
+<script src="//foxsports.aerolabdigital.com/assets/scripts/plugins.js"></script>
+#else
+<script src="$CDNAssetsPath/scripts/plugins.js$CDNAppend"></script>
+#end
+#end
+## Scripts compiled in plugins.js:
+##
+## iFrameResize.min.js is initialized in main.js with the function iFrameResize, it's applied to all iframes, it re-calculates the heights of iframes according to their content..
+## dfp.gpt.logger.override.js is related to ads, seems to be used in ads.js and __ads.vm. See https://www.google.com/analytics/tag-manager .
+## ls.rias.js Responsive Image as Service plugin enables lazySizes to generate the best suitable image source based on an URL pattern. Used in images in pretty much everywhere in the site.
+## ls.bgset.js lazysizes plugin that allows you to define multiple background images with a width descriptor. Used in images in pretty much everywhere in the site.
+## ls.parent-fit.js lazysizes plugin that extends the data-sizes="auto" feature to also calculate the right `sizes` for object-fit: contain|cover` image elements. Used in images in pretty much everywhere in the site.
+##
+## jquery.js jQuery, used pretty much everywhere in the site.
+## fastclick.js eliminates the 300ms delay between a physical tap and the firing of a `click` event on mobile browsers. Started in main.js with FastClick.attach.
+## jquery.hoverIntent.js improvement on the hover action of jquery that will ignore if the user moves over an element by mistake. It's currently not in use in the site.
+## moment.js time conversor to different locale, very useful. Used pretty much everywhere in the site.
+## mustache.js renders mustache templates. Used in match_live.js and fourOhFour.js.
+## selectordie.js gives style to select elements, used in the country selector in nav bar in desktop and in the hamburger menu in mobile
+## slick.min.js carousel. Used in match_live.js and in the page tv/schedule/all/index.vm
+## jquery.appear.js jQuery plugin for tracking element's appearance in browser viewport. Used in main.js to show first the share data of the elements in view.
+## lazysizes.js lazySizes. Used in every image.
+## jquery.copycss.js jQuery extension to retrieve or copy all styles from an element. Used in ads.js
+##
+## mresize.min.js adds on resize action to jquery. Used in ads.js
+## moment/locale/pt-br.js config file for portuguese language for moment.js
+## moment/locale/es.js config file for spanish language for moment.js
+##
+<script>
+// By default is en
+#if ($Country != 'br')
+currentLocale = 'es';
+#else
+currentLocale = 'pt-br';
+#end
+moment.locale(currentLocale);
+currentTs = $ServerTimer.Format("yyyyMMddHHmm");
+</script>
+#if ($bodyClass == 'embed-player-page')
+#if ($is_local || $isLocalOmnix)
+<script src="//foxsports.aerolabdigital.com/assets/scripts/player.js"></script>
+#else
+<script src="$CDNAssetsPath/scripts/player.js$CDNAppend"></script>
+#end
+<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+<script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+#else
+#if ($is_local || $isLocalOmnix)
+<script src="//foxsports.aerolabdigital.com/assets/scripts/main.js"></script>
+#else
+<script src="$CDNAssetsPath/scripts/main.js$CDNAppend"></script>
+#end
+<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+<script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+#end
+#renderMustacheTemplates()
