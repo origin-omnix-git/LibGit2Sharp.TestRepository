@@ -1,0 +1,35 @@
+## dist/templates/pages/index.vm
+## branch: master
+## release: v2.3.0
+## 2016-08-18 3:29:02
+$Templates.Parse("head")
+$Templates.Parse("sidemenu")
+$Templates.Parse("header")
+#trendingMenu()
+## MAM Ticker active only in Beta environment for testing
+#if ($CDNEnv == 'beta' && !$isLocalOmnix)
+#showMAMTicker()
+#end
+#########################################################################
+########## For now HOME has two versions mobile/desktop+tablet ##########
+#########################################################################
+<div class="home-main">
+## <div class="match-live-slider"></div>
+#printAd("960x50pushhome")
+#blockBreakingNews()
+#if ($ct_env.environment != "emulator")
+#homeGetModules()
+#else
+## Demo content for Home
+#homeSuperHighlight()
+#foxPlayLive()
+#homeHighlight()
+#homeGalleryModule("" "")
+#homeNewsModule("" "")
+#blockVideoGallery("last" "" "$dsLang.videos_title.Value <small>FOX Sports</small>")
+#end
+</div>
+#printAd("catfish")
+$Templates.Parse("footer")
+$Templates.Parse("scripts")
+$Templates.Parse("foot")

@@ -1,7 +1,7 @@
 ## dist/templates/partials/scripts.vm
 ## branch: master
-## release: v2.1.12
-## 2016-06-23 1:07:40
+## 2016-09-20 3:54:01
+#set($currentReleaseVersion = 'v2.3.4')
 #getCDNPath()
 #if ($bodyClass == 'embed-player-page')
 #if ($is_local || $isLocalOmnix)
@@ -58,12 +58,19 @@ currentTs = $ServerTimer.Format("yyyyMMddHHmm");
 <script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 #else
+#languageVars()
+<script>
+if (typeof GLOBALS.dsLang !== 'object') {
+GLOBALS.dsLang = {};
+}
+jQuery.extend(GLOBALS.dsLang, JSON.parse('$dsLangJson'));
+</script>
 #if ($is_local || $isLocalOmnix)
 <script src="//foxsports.aerolabdigital.com/assets/scripts/main.js"></script>
 #else
 <script src="$CDNAssetsPath/scripts/main.js$CDNAppend"></script>
 #end
-<script src="https://imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
 <script src="http://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 #end
 #renderMustacheTemplates()

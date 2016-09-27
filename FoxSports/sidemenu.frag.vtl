@@ -1,124 +1,39 @@
 ## dist/templates/partials/sidemenu.vm
 ## branch: master
-## release: v2.1.8
-## 2016-06-03 5:59:00
+## 2016-09-20 3:54:01
+#set($currentReleaseVersion = 'v2.3.4')
 #languageVars()
+#getAbsoluteURL()
 #macro(competitionsSidemenu)
 <li class="item-has-children">
-<a href="#0">$ds_lang_nav_bar_competitions</a>
+<a href="#0">$dsLang.nav_bar_competitions.Value</a>
 <ul class="sub-menu">
+<li class="see-more">
+<a class="see-all" href="/$Country/competition">
+$dsLang.see_more_f.Value
+<i class="fa fa-angle-right"></i>
+</a>
+</li>
 #calculateEditorialCountry()
-#if($editorialCountry == "br")
-## Brasil
-<li class="sub-menu-title">FUTEBOL</li>
-<li><a href="/libertadores">Copa Bridgestone Libertadores</a></li>
-<li><a href="/brasileirao">Brasileirão</a></li>
-<li><a href="/serieb">Brasileiro Série B</a></li>
-<li><a href="/copadobrasil">Copa do Brasil</a></li>
-<li><a href="/campeonatoingles">Barclays Premier League</a></li>
-<li><a href="/campeonatoespanhol">Liga BBVA</a></li>
-<li><a href="/bundesliga">Bundesliga</a></li>
-<li><a href="/campeonatoitaliano">Serie A TIM</a></li>
-<li><a href="/champions">Champions League</a></li>
-<li><a href="/ligaeuropa">Europa League</a></li>
-<li><a href="/campeonatoescoces">Ladbrokes Premiership</a></li>
-<li><a href="/campeonatobelga">Jupiler Pro League</a></li>
-<li><a href="/eliminatorias">Eliminatórias Conmebol</a></li>
-<li class="sub-menu-title">FOX Nitro</li>
-<li><a href="/nascar">Nascar</a></li>
-<li><a href="/formulae">Fórmula E</a></li>
-<li><a href="/formula1">Fórmula 1</a></li>
-<li class="sub-menu-title">MAIS ESPORTES</li>
-<li><a href="/jogosolimpicos">Jogos Olímpicos</a></li>
-<li><a href="/bellator">Bellator</a></li>
-<li><a href="/atp">Tênis</a></li>
-<li><a href="/nba">NBA</a></li>
-#elseif($editorialCountry == "cl")
-## Chile
-<li class="sub-menu-title">FÚTBOL</li>
-<li><a href="/campeonatonacional">Campeonato Nacional de Chile</a></li>
-<li><a href="/bundesliga">Bundesliga</a></li>
-<li><a href="/premierleague">Premier League de Inglaterra</a></li>
-<li><a href="/laliga">La Liga de España</a></li>
-<li><a href="/seriea">Serie A TIM</a></li>
-<li><a href="/mls">MLS</a></li>
-<li class="sub-menu-title">COPAS Y TORNEOS</li>
-<li><a href="/libertadores">Copa Bridgestone Libertadores</a></li>
-<li><a href="/europaleague">UEFA Champions League</a></li>
-<li><a href="/championsleague">UEFA Europa League</a></li>
-<li><a href="/concacaf">CONCACAF Liga de Campeones Scotiabank</a></li>
-<li class="sub-menu-title">OTRAS COMPETENCIAS</li>
-<li><a href="/formula1">Fórmula 1</a></li>
-<li><a href="/atp">Tenis ATP</a></li>
-<li><a href="/nfl">NFL</a></li>
-<li><a href="/formulae">Fórmula E</a></li>
-<li><a href="/wta">Tenis WTA</a></li>
-<li><a href="/juegosolimpicos">Juegos Olímpicos</a></li>
-#elseif($editorialCountry == "co")
-## Colombia
-<li class="sub-menu-title">FÚTBOL</li>
-<li><a href="/ligacolombia">Liga Colombiana</a></li>
-<li><a href="/bundesliga">Bundesliga</a></li>
-<li><a href="/premierleague">Premier League de Inglaterra</a></li>
-<li><a href="/laliga">La Liga de España</a></li>
-<li><a href="/seriea">Serie A TIM</a></li>
-<li><a href="/mls">MLS</a></li>
-<li class="sub-menu-title">COPAS Y TORNEOS</li>
-<li><a href="/libertadores">Copa Bridgestone Libertadores</a></li>
-<li><a href="/europaleague">UEFA Champions League</a></li>
-<li><a href="/championsleague">UEFA Europa League</a></li>
-<li><a href="/concacaf">CONCACAF Liga de Campeones Scotiabank</a></li>
-<li class="sub-menu-title">OTRAS COMPETENCIAS</li>
-<li><a href="/formula1">Fórmula 1</a></li>
-<li><a href="/atp">Tenis ATP</a></li>
-<li><a href="/nfl">NFL</a></li>
-<li><a href="/formulae">Fórmula E</a></li>
-<li><a href="/wta">Tenis WTA</a></li>
-<li><a href="/juegosolimpicos">Juegos Olímpicos</a></li>
-#elseif($editorialCountry == "mx")
-## Cono Norte
-<li class="sub-menu-title">FUTBOL</li>
-<li><a href="/ligamx">Liga MX</a></li>
-<li><a href="/bundesliga">Bundesliga</a></li>
-<li><a href="/premierleague">Premier League de Inglaterra</a></li>
-<li><a href="/laliga">La Liga de España</a></li>
-<li><a href="/seriea">Serie A TIM</a></li>
-<li><a href="/mls">MLS</a></li>
-<li class="sub-menu-title">COPAS Y TORNEOS</li>
-<li><a href="/concacaf">CONCACAF Liga de Campeones Scotiabank</a></li>
-<li><a href="/eliminatorias2018">Eliminatorias Conmebol</a></li>
-<li><a href="/libertadores">Copa Bridgestone Libertadores</a></li>
-<li><a href="/championsleague">UEFA Champions League</a></li>
-<li><a href="/europaleague">UEFA Europa League</a></li>
-<li class="sub-menu-title">OTRAS COMPETENCIAS</li>
-<li><a href="/nfl">NFL</a></li>
-<li><a href="/formula1">Fórmula 1</a></li>
-<li><a href="/nba">NBA</a></li>
-<li><a href="/mlb">MLB</a></li>
-<li><a href="/formulae">Fórmula E</a></li>
-<li><a href="/juegosolimpicos2016">Juegos Olímpicos</a></li>
+#dataSourceUrl()
+#set($_menuItemsXml = $IncludePageHelper.GetPage("15", "$dataSourceUrl/ds_competitions.xml${CDNAppend}"))
+#getXmlElements($_menuItemsXml "item" "")
+#set($menuItems = $xmlElements)
+#foreach($item in $menuItems)
+#getXmlAttribute($item "item" "name")
+#set($itemName = $xmlAttribute)
+#getXmlAttribute($item "item" "url")
+#set($itemUrl = $xmlAttribute)
+#set($itemUrl = $itemUrl.ToString().Replace(" ", "%20"))
+#getXmlAttribute($item "item" "column-header")
+#set($colHeader = $xmlAttribute)
+#getXmlAttribute($item "item" "menu-column-type")
+#set($colType = $xmlAttribute)
+#if ($colHeader == "true")
+<li class="sub-menu-title">$itemName</li>
 #else
-## Cono Sur
-<li class="sub-menu-title">FÚTBOL</li>
-<li><a href="/futbolargentino">Primera A Argentina</a></li>
-<li><a href="/bundesliga">Bundesliga</a></li>
-<li><a href="/premierleague">Premier League de Inglaterra</a></li>
-<li><a href="/laliga">La Liga de España</a></li>
-<li><a href="/seriea">Serie A TIM</a></li>
-<li><a href="/mls">MLS</a></li>
-<li class="sub-menu-title">COPAS Y TORNEOS</li>
-<li><a href="/libertadores">Copa Bridgestone Libertadores</a></li>
-<li><a href="/europaleague">UEFA Europa League</a></li>
-<li><a href="/championsleague">UEFA Champions League</a></li>
-<li><a href="/concacaf">CONCACAF Liga de Campeones Scotiabank</a></li>
-<li><a href="/eliminatorias2018">Eliminatorias Conmebol</a></li>
-<li class="sub-menu-title">OTRAS COMPETENCIAS</li>
-<li><a href="/formula1">Fórmula 1</a></li>
-<li><a href="/atp">Tenis ATP</a></li>
-<li><a href="/nfl">NFL</a></li>
-<li><a href="/formulae">Fórmula E</a></li>
-<li><a href="/wta">Tenis WTA</a></li>
-<li><a href="/juegosolimpicos2016">Juegos Olímpicos</a></li>
+<li><a href=${itemUrl}>${itemName}</a></li>
+#end
 #end
 </ul>
 </li>
@@ -130,7 +45,7 @@
 <ul class="sub-menu sub-menu-times">
 #getTeamsList()
 #set($count_teams = 0)
-#foreach($team in $teams_br_br_url)
+#foreach ($team in $teams_br_br_url)
 <li><a href="$teams_br_br_url.get_Item($count_teams)" title="$teams_br_br_name.get_Item($count_teams)"><img src="$teams_br_br_shield.get_Item($count_teams)" alt="$teams_br_br_name.get_Item($count_teams)"/></a></li>
 #set($count_teams = $count_teams + 1)
 #end
@@ -144,13 +59,13 @@
 <ul class="sidemenu-nav">
 ## Editorial Mobile Menu
 ## Since #getXmlAttribute does not work on emulator, we have some Demo content for emulator
-## #if($ct_env.environment != "emulator")
+## #if ($ct_env.environment != "emulator")
 ##   #dataSourceUrl()
-##   #set ($_headerMenuXml = $IncludePageHelper.GetPage("15", "$dataSourceUrl/ds_menuMobile.xml"))
+##   #set($_headerMenuXml = $IncludePageHelper.GetPage("15", "$dataSourceUrl/ds_menuMobile.xml"))
 ##   #getXmlElements($_headerMenuXml "item" "")
-##   #set ($headerMenuXml = $xmlElements)
+##   #set($headerMenuXml = $xmlElements)
 ##   <ul>
-##     #foreach($menuItem in $headerMenuXml)
+##     #foreach ($menuItem in $headerMenuXml)
 ##       #getXmlAttribute($menuItem "item" "title")
 ##       #set($menuItemTitle = $xmlAttribute)
 ##       #getXmlAttribute($menuItem "item" "link")
@@ -163,21 +78,21 @@
 ##   </ul>
 ## #else
 <ul>
-<li class="sub-menu-title">$ds_lang_nav_bar_sections</li>
-<li class="item"><a href="/$Country/news">$ds_lang_news_title_p</a></li>
-<li class="item"><a href="/$Country/blogs">$ds_lang_blog_title_p</a></li>
-<li class="item"><a href="/$Country/tv/schedule/today">$ds_lang_schedule_title</a></li>
-<li class="item"><a href="/$Country/photos">$ds_lang_gallery_title</a></li>
+<li class="sub-menu-title">$dsLang.nav_bar_sections.Value</li>
+<li class="item"><a href="$rootWWWURL/news">$dsLang.news_title_p.Value</a></li>
+<li class="item"><a href="$rootWWWURL/blogs">$dsLang.blog_title_p.Value</a></li>
+<li class="item"><a href="$rootWWWURL/tv/schedule/today">$dsLang.schedule_title.Value</a></li>
+<li class="item"><a href="$rootWWWURL/photos">$dsLang.gallery_title.Value</a></li>
 #competitionsSidemenu()
-#if($Country == "br")
+#if ($Country == "br")
 #timesSidemenu()
 #end
-#if($ct_env.environment != "emulator")
+#if ($ct_env.environment != "emulator")
 #dataSourceUrl()
-#set ($_trendMenuXml = $IncludePageHelper.GetPage("15", "$dataSourceUrl/ds_trendMenu.xml"))
+#set($_trendMenuXml = $IncludePageHelper.GetPage("15", "$dataSourceUrl/ds_trendMenu.xml"))
 #getXmlElements($_trendMenuXml "item" "")
-#set ($trendMenuXml = $xmlElements)
-#foreach($menuItem in $trendMenuXml)
+#set($trendMenuXml = $xmlElements)
+#foreach ($menuItem in $trendMenuXml)
 #getXmlAttribute($menuItem "item" "title")
 #set($menuItemTitle = $xmlAttribute)
 #getXmlAttribute($menuItem "item" "link")
@@ -189,7 +104,7 @@
 <li class="item"><a href="/">Trend 1</a></li>
 <li class="item"><a href="/">Trend 2</a></li>
 #end
-#if ($Country == "br")<li class="item"><a href="/$Country/videos">$ds_lang_videos_title</a></li>#end
+#if ($Country == "br")<li class="item"><a href="/$Country/videos">$dsLang.videos_title.Value</a></li>#end
 </ul>
 ## #end
 #blockCountrySelector()
