@@ -1,7 +1,7 @@
 ## dist/templates/partials/head.vm
 ## branch: master
-## release: v2.1.12
-## 2016-06-23 1:07:40
+## 2016-09-20 3:54:01
+#set($currentReleaseVersion = 'v2.3.4')
 #languageVars()
 #getCDNPath()
 #getAbsoluteURL()
@@ -20,9 +20,20 @@
 <!-- On HOLD: FOXS-202 meta name="apple-itunes-app" content="app-id=525431715,affiliate-data=,app-argument="-->
 <meta name="google-site-verification" content="OqS9dWW_Er-W1F740lvQBGeSjfHkSCpSuptia-fH5HM"/>
 <meta name="google-site-verification" content="NbgJ_fi0D03U2oXbPh7SllqvKFvbEQX7EmoAowvEu4M"/>
+#calculateEditorialCountry()
+#if($editorialCountry == "ar")<meta property="fb:pages" content="277234042778" />#end
+#if($editorialCountry == "co")<meta property="fb:pages" content="487890711240189" />#end
+#if($editorialCountry == "mx")<meta property="fb:pages" content="120616094627971" />#end
+#if($editorialCountry == "cl")<meta property="fb:pages" content="285461078223672" />#end
+#if($editorialCountry == "br")<meta property="fb:pages" content="181716461915123" />#end
 <link rel="icon" href="$CDNAssetsPath/images/favicon.ico$CDNAppend"/>
 #set ($_countryLessUrl = $URLParser.Url.SubString(2))
+#if($Query.get_Item("section"))
+#set($str_query = $Query.get_Item("section"))
+<link rel="canonical" href="$rootWWWURL$_countryLessUrl/?section=${str_query}"/>
+#else
 <link rel="canonical" href="$rootWWWURL$_countryLessUrl"/>
+#end
 #if ($Country == 'br')
 <link rel="alternate" href="http://www.foxsports.com.br$_countryLessUrl" hreflang="pt"/>
 <link rel="alternate" href="http://www.foxsports.com.br$_countryLessUrl" hreflang="pt-br"/>
@@ -56,9 +67,11 @@
 <link rel="apple-touch-icon" sizes="144x144" href="$CDNAssetsPath/images/icon-144.png$CDNAppend"/>
 <!-- iOS: End -->
 #if ($is_local || $isLocalOmnix)
+## <!--[if gt IE 9]>
 <script src="//localhost:35729/livereload.js?snipver=1"></script>
+## <![endif]-->
 #end
-#if($_countryLessUrl == '')
+#if ($_countryLessUrl == '')
 #getSocialLinks()
 #if ($Country != 'br')
 #set($wikiLink = 'https://en.wikipedia.org/wiki/Fox_Sports_Latinoam%C3%A9rica')
@@ -84,11 +97,9 @@
 window.GLOBALS = {};
 window.GLOBALS.rootURL = '$rootWWWURL';
 ## this one is required in beta environment.
-#if($CDNEnv == 'beta' && !$isLocalOmnix)
-window.GLOBALS.rootURLPlusCountry = '${rootWWWURL}/${Country}';
+#if (($CDNEnv == 'beta' || $CDNEnv == 'live') && !$isLocalOmnix)
 window.GLOBALS.environment = 'live';
 #else
-window.GLOBALS.rootURLPlusCountry = '$rootWWWURL';
 window.GLOBALS.environment = 'local';
 #end
 window.GLOBALS.productionURL = '$productionURL';
@@ -109,7 +120,7 @@ window.GLOBALS.isMobile = true;
 ## Will print <meta> for title and oGraph
 #metatagsPrint()
 <!--
-#if($config.section != "duelos" && $config.section !="iab-fotos")
+#if ($config.section != "duelos" && $config.section !="iab-fotos")
 <link rel="canonical" href="http://www.foxsportsla.com/$URLParser.Url"/>
 #end
 -->
@@ -131,14 +142,14 @@ window.GLOBALS.isMobile = true;
 <link rel="stylesheet" href="$CDNAssetsPath/styles/main.css$CDNAppend"/>
 #end
 #end
-<!-- [if lt IE 9]>
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
-<![endif] -->
-<link href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel='stylesheet' type='text/css'>
+<!--[if lte IE 9]>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" type="text/javascript"></script>
+<![endif]-->
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700' rel='stylesheet' type='text/css'>
 #printAdsDFPCall()
 </head>
 #getBodyClass()
-<body#if($bodyClass != '') class="$!{bodyClass}" #end>
+<body#if ($bodyClass != '') class="$!{bodyClass}" #end>
 <!-- Google Tag Manager -->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PJ2PHH"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
