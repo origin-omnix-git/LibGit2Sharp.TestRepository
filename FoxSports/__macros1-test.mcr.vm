@@ -4,7 +4,7 @@
 ## 2016-07-19 2:40:09
 ################ printMethodInFileTest ################
 #macro(printMethodInFileTest)
-<h2>printMethodInFileTest</h2>
-<article>Article in printMethodInFileTest</article>
-<h2>End printMethodInFileTest</h2>
+<h2>printMethodInFileTest Modificado</h2>
+<article>Article in printMethodInFileTest Modificado</article>
+<h2>End printMethodInFileTest Modificado</h2>
 #end
