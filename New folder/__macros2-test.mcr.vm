@@ -1,0 +1,10 @@
+## dist/templates/COPY1.vm
+## branch: master
+## release: v2.2.2
+## 2016-07-19 2:40:09
+################ printMethodInFileTestB ################
+#macro(printMethodInFileTestB)
+<h2>printMethodInFileTestB!!</h2>
+<article>Article in printMethodInFileTestB</article>
+<h2>End printMethodInFileTestB</h2>
+#end
