@@ -4,7 +4,13 @@
 ## 2016-07-19 2:40:09
 ################ printMethodInFileTest ################
 #macro(printMethodInFileTest)
-<h2>printMethodInFileTest</h2>
-<article>Article in printMethodInFileTest</article>
-<h2>End printMethodInFileTest</h2>
+<h2>printMethodInFileTest test1</h2>
+<article>Article in print Method In FileTest</article>
+<h2>End printMethodInFileTest test1</h2>
+#end
+################ printOTHERMethodInFileTest ################
+#macro(printOTHERMethodInFileTest)
+<h2>printOTHERMethodInFileTest test1</h2>
+<article>Article in print OTHER Method In FileTest</article>
+<h2>End printOTHERMethodInFileTest test1</h2>
 #end
