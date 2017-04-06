@@ -5,6 +5,6 @@
 ################ printMethodInFileTestB ################
 #macro(printMethodInFileTestB)
 <h2>printMethodInFileTestB!!</h2>
-<article>Article in printMethodInFileTestB 6/4/2017</article>
+<article>Article in printMethodInFileTestB 6/4/2017 ahh OK</article>
 <h2>End printMethodInFileTestB</h2>
 #end
